@@ -1,5 +1,5 @@
 TARGET := ajs
-INCLUDEDIR := ./include/ 
+INCLUDEDIR := ./src/ 
 SRC := $(wildcard src/*.cpp)
 CFLAGS := -g -O0
 
