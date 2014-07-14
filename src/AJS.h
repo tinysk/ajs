@@ -14,9 +14,13 @@
  *
  * =====================================================================================
  */
+#ifndef AJS_AJS_H_
+#define AJS_AJS_H_
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include "Macros.h"
 
 #define ASSERT(x) \
     do{\
@@ -26,11 +30,4 @@
             }\
     }while(0)
 
-
-#ifndef UNLIKELY
-#define UNLIKELY(x) __builtin_expect((x), 0)
-#endif
-
-#ifndef LIKELY
-#define LIKELY(x) __builtin_expect((x), 1)
 #endif

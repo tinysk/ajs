@@ -14,6 +14,8 @@
  *
  * =====================================================================================
  */
+#ifndef AJS_PARSER_LEX_H
+#define AJS_PARSER_LEX_H
 
 #include "AJS.h"
 #include "AsciicType.h"
@@ -85,53 +87,51 @@ class Identifier
 class Lex
 {
 public:
-    Lex(char* buffer, int size) : m_buffer(buffer), m_size(size)
-    {
-        m_bufferEnd = buffer + size;
-        shift4();
-    };
+  Lex(char* buffer, int size) : m_buffer(buffer), m_size(size)
+  {
+    m_bufferEnd = buffer + size;
+    shift4();
+  }
 
-    void parse();
+  void parse();
+
 private:
+  char* m_buffer;
+  int   m_size;    
+  char* m_bufferEnd;
 
-    char* m_buffer;
-    int   m_size;    
-    char* m_bufferEnd;
+  int m_current;
+  int m_next1;
+  int m_next2;
+  int m_next3;
 
-    int m_current;
-    int m_next1;
-    int m_next2;
-    int m_next3;
+  int m_lineNumber;
 
-    int m_lineNumber;
+  void shift1();
+  void shift2();
+  void shift3();
+  void shift4();
 
-    void shift1();
-    void shift2();
-    void shift3();
-    void shift4();
+  void shiftLine();
 
-    void shiftLine();
+  void parseToken();
 
-    void parseToken();
+  void parseIdentifier();
 
-	void parseIdentifier();
+  Identifier* makeIdentifier(char* identifierStart, uint32_t identifierLength);
 
-	Identifier* makeIdentifier(char* identifierStart, uint32_t identifierLength);
+  inline bool isLineTerminator(int ch)
+  {
+    return ch == '\r' || ch == '\n' || (ch & ~1) == 0x2028;
+  }
 
-    inline bool isLineTerminator(int ch)
-    {
-        return ch == '\r' || ch == '\n' || (ch & ~1) == 0x2028;
-    }
-
-    inline bool isWhiteSpace(int ch)
-    {
-        ASSERT(isASCII(ch));
-        return (ch == ' ' || ch == '\t' || ch == 0xB || ch == 0xC);
-    }
+  inline bool isWhiteSpace(int ch)
+  {
+    ASSERT(isASCII(ch));
+    return (ch == ' ' || ch == '\t' || ch == 0xB || ch == 0xC);
+  }
 
 };
 
-
-    
 }
-
+#endif
